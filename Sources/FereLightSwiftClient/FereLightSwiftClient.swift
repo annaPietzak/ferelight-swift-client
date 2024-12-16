@@ -13,11 +13,12 @@ public class FereLightClient {
     /// Retrieves object information for the specified object ID.
     ///
     /// - Parameters:
+    ///   - database: The name of the database to query.
     ///   - objectId: The ID of the object to retrieve info for.
     ///
     /// - Returns: Object information.
-    public func getObjectInfo(objectId: String) async throws -> (objectId: String, mediaType: Int, name: String, path: String) {
-        let response = try await client.get_sol_objectinfo_sol__lcub_objectid_rcub_(path: .init(objectid: objectId))
+    public func getObjectInfo(database: String, objectId: String) async throws -> (objectId: String, mediaType: Int, name: String, path: String) {
+        let response = try await client.get_sol_objectinfo_sol__lcub_database_rcub__sol__lcub_objectid_rcub_(path: .init(database: database, objectid: objectId))
         
         let message = try response.ok.body.json
         
@@ -27,11 +28,12 @@ public class FereLightClient {
     /// Retrieves segment information for the specified segment ID.
     ///
     /// - Parameters:
+    ///   - database: The name of the database to query.
     ///   - segmentId: The ID of the segment to retrieve info for.
     ///
     /// - Returns: Segment information.
-    public func getSegmentInfo(segmentId: String) async throws -> (segmentId: String, objectId: String, segmentNumber: Int, segmentStart: Int, segmentEnd: Int, segmentStartAbs: Double, segmentEndAbs: Double) {
-        let response = try await client.get_sol_segmentinfo_sol__lcub_segmentid_rcub_(path: .init(segmentid: segmentId))
+    public func getSegmentInfo(database: String, segmentId: String) async throws -> (segmentId: String, objectId: String, segmentNumber: Int, segmentStart: Int, segmentEnd: Int, segmentStartAbs: Double, segmentEndAbs: Double) {
+        let response = try await client.get_sol_segmentinfo_sol__lcub_database_rcub__sol__lcub_segmentid_rcub_(path: .init(database: database, segmentid: segmentId))
         
         let message = try response.ok.body.json
         
@@ -41,11 +43,12 @@ public class FereLightClient {
     /// Retrieves all segments of the multimedia object with the specified objectID.
     ///
     /// - Parameters:
+    ///   - database: The name of the database to query.
     ///   - objectId: The ID of the object to retrieve segments for.
     ///
     /// - Returns: Array of segment infos of the segments in the object.
-    public func getObjectSegments(objectId: String) async throws -> [(segmentId: String, objectId: String, segmentNumber: Int, segmentStart: Int, segmentEnd: Int, segmentStartAbs: Double, segmentEndAbs: Double)] {
-        let response = try await client.get_sol_objectsegments_sol__lcub_objectid_rcub_(path: .init(objectid: objectId))
+    public func getObjectSegments(database: String, objectId: String) async throws -> [(segmentId: String, objectId: String, segmentNumber: Int, segmentStart: Int, segmentEnd: Int, segmentStartAbs: Double, segmentEndAbs: Double)] {
+        let response = try await client.get_sol_objectsegments_sol__lcub_database_rcub__sol__lcub_objectid_rcub_(path: .init(database: database, objectid: objectId))
         
         let message = try response.ok.body.json
         
@@ -55,11 +58,12 @@ public class FereLightClient {
     /// Retrieves object information for the specified object IDs.
     ///
     /// - Parameters:
+    ///   - database: The name of the database to query.
     ///   - objectIds: The IDs of the objects to retrieve info for.
     ///
     /// - Returns: Object information array.
-    public func getObjectInfos(objectIds: [String]) async throws -> [(objectId: String, mediaType: Int, name: String, path: String)] {
-        let response = try await client.post_sol_objectinfos(body: .json(.init(objectids: objectIds)))
+    public func getObjectInfos(database: String, objectIds: [String]) async throws -> [(objectId: String, mediaType: Int, name: String, path: String)] {
+        let response = try await client.post_sol_objectinfos(body: .json(.init(database: database, objectids: objectIds)))
         
         let message = try response.ok.body.json
         
@@ -69,11 +73,12 @@ public class FereLightClient {
     /// Retrieves segment information for the specified segment IDs.
     ///
     /// - Parameters:
+    ///   - database: The name of the database to query.
     ///   - segmentIds: The IDs of the segments to retrieve info for.
     ///
     /// - Returns: Segment information array.
-    public func getSegmentInfos(segmentIds: [String]) async throws -> [(segmentId: String, objectId: String, segmentNumber: Int, segmentStart: Int, segmentEnd: Int, segmentStartAbs: Double, segmentEndAbs: Double)] {
-        let response = try await client.post_sol_segmentinfos(body: .json(.init(segmentids: segmentIds)))
+    public func getSegmentInfos(database: String, segmentIds: [String]) async throws -> [(segmentId: String, objectId: String, segmentNumber: Int, segmentStart: Int, segmentEnd: Int, segmentStartAbs: Double, segmentEndAbs: Double)] {
+        let response = try await client.post_sol_segmentinfos(body: .json(.init(database: database, segmentids: segmentIds)))
         
         let message = try response.ok.body.json
         
@@ -83,13 +88,14 @@ public class FereLightClient {
     /// Queries the database with the given similarity text, ocr text, and results limit.
     ///
     /// - Parameters:
+    ///   - database: The name of the database to query.
     ///   - similarityText: Text to use for nearest neighbor search based on a semantic embedding.
     ///   - ocrText: Text to use for a filtering text search.
     ///   - limit: Maximum number of results to return.
     ///
     /// - Returns: Array of segment ID and similarity score pairs.
-    public func query(similarityText: String?, ocrText: String?, limit: Int?) async throws -> [(segmentId: String, score: Double)] {
-        let response = try await client.post_sol_query(body: .json(.init(similaritytext: similarityText, ocrtext: ocrText, limit: limit)))
+    public func query(database: String, similarityText: String?, ocrText: String?, limit: Int?) async throws -> [(segmentId: String, score: Double)] {
+        let response = try await client.post_sol_query(body: .json(.init(database: database, similaritytext: similarityText, ocrtext: ocrText, limit: limit)))
         
         let message = try response.ok.body.json
         
