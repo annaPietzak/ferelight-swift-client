@@ -6,7 +6,7 @@ public class FereLightClient {
     let client: Client
     
     /// Instantiate client and perform login.
-    public init(url: URL) async throws {
+    public init(url: URL) {
         self.client = Client(serverURL: url, transport: URLSessionTransport())
     }
     

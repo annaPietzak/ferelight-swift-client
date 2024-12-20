@@ -17,7 +17,7 @@ let alternativeTestSimilarityText = "A whale shark swimming through a field"
 
 
 @Test func getObjectInfo() async throws {
-    let client = try await FereLightClient(url: URL(string: host + ":" + port)!)
+    let client = FereLightClient(url: URL(string: host + ":" + port)!)
     let result = try await client.getObjectInfo(database: testDatabase, objectId: testObjectId)
     let objectName = "\(testObjectId.dropFirst(2)).mp4"
     #expect(result.objectId == testObjectId)
@@ -25,51 +25,51 @@ let alternativeTestSimilarityText = "A whale shark swimming through a field"
 }
 
 @Test func getSegmentInfo() async throws {
-    let client = try await FereLightClient(url: URL(string: host + ":" + port)!)
+    let client = FereLightClient(url: URL(string: host + ":" + port)!)
     let result = try await client.getSegmentInfo(database: testDatabase, segmentId: testSegmentId)
     #expect(result.objectId == testObjectId)
     #expect(result.segmentId == testSegmentId)
 }
 
 @Test func getObjectSegments() async throws {
-    let client = try await FereLightClient(url: URL(string: host + ":" + port)!)
+    let client = FereLightClient(url: URL(string: host + ":" + port)!)
     let result = try await client.getObjectSegments(database: testDatabase, objectId: testObjectId)
     #expect(result.count > 0)
     #expect(result.first?.objectId == testObjectId)
 }
 
 @Test func getObjectInfos() async throws {
-    let client = try await FereLightClient(url: URL(string: host + ":" + port)!)
+    let client = FereLightClient(url: URL(string: host + ":" + port)!)
     let result = try await client.getObjectInfos(database: testDatabase, objectIds: testObjectIds)
     #expect(result.count == testObjectIds.count)
 }
 
 @Test func getSegmentInfos() async throws {
-    let client = try await FereLightClient(url: URL(string: host + ":" + port)!)
+    let client = FereLightClient(url: URL(string: host + ":" + port)!)
     let result = try await client.getSegmentInfos(database: testDatabase, segmentIds: testSegmentIds)
     #expect(result.count == testSegmentIds.count)
 }
 
 @Test func similarityQuery() async throws {
-    let client = try await FereLightClient(url: URL(string: host + ":" + port)!)
+    let client = FereLightClient(url: URL(string: host + ":" + port)!)
     let result = try await client.query(database: testDatabase, similarityText: testSimilarityText, ocrText: nil, limit: testResultsLimit)
     #expect(result.count == testResultsLimit)
 }
 
 @Test func ocrQuery() async throws {
-    let client = try await FereLightClient(url: URL(string: host + ":" + port)!)
+    let client = FereLightClient(url: URL(string: host + ":" + port)!)
     let result = try await client.query(database: testDatabase, similarityText: nil, ocrText: testOcrText, limit: testResultsLimit)
     #expect(result.count > 0)
 }
 
 @Test func fullQuery() async throws {
-    let client = try await FereLightClient(url: URL(string: host + ":" + port)!)
+    let client = FereLightClient(url: URL(string: host + ":" + port)!)
     let result = try await client.query(database: testDatabase, similarityText: testSimilarityText, ocrText: testOcrText, limit: testResultsLimit)
     #expect(result.count > 0)
 }
 
 @Test func similarityQueryAlternativeDatabase() async throws {
-    let client = try await FereLightClient(url: URL(string: host + ":" + port)!)
+    let client = FereLightClient(url: URL(string: host + ":" + port)!)
     let result = try await client.query(database: alternativeTestDatabase, similarityText: alternativeTestSimilarityText, ocrText: nil, limit: testResultsLimit)
     #expect(result.count == testResultsLimit)
 }
