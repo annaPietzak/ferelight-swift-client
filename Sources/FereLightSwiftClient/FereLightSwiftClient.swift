@@ -2,7 +2,7 @@ import OpenAPIRuntime
 import Foundation
 import OpenAPIURLSession
 
-public class FereLightClient {
+public struct FereLightClient : Sendable {
     let client: Client
     
     /// Instantiate client and perform login.
