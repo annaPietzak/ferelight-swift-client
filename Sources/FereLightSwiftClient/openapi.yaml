@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: FERElight
   description: API for the lightweight feature extraction and retrieval engine (FERElight).
-  version: 1.1.0
+  version: 1.0.0
 components:
   schemas:
     multimediaobject:
@@ -179,7 +179,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/multimediasegment"
-  # Query endpoint with similarity text and OCR text as input and list of segment ID and similarity score pairs as output
+  # Query endpoint with similarity text, OCR and ASR text as input and list of segment ID and similarity score pairs as output
   /query:
     post:
       summary: Query the FERElight engine.
@@ -199,6 +199,12 @@ paths:
                 ocrtext:
                   type: string
                   description: The OCR text.
+                asrtext:
+                  type: string
+                  description: The ASR text.
+                mergetype:
+                  type: string
+                  description: Merge Type for the similaritytext
                 limit:
                   type: integer
                   description: The maximum number of results to return.
@@ -258,6 +264,7 @@ paths:
                   description: The object ID to find the segment in.
                 timestamp:
                   type: number
+                  format: float
                   description: The timestamp to match against.
       responses:
         "200":
